@@ -1541,7 +1541,7 @@ Animator:
   m_GameObject: {fileID: 2043203522}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6c74c7e8867f0f2429894bf96c8debdf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 28e69e8c365c13e48bf5f0f6467ce06c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1567,6 +1567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1393478787}
   isFree: 0
+  animator: {fileID: 2043203524}
 --- !u!1001 &3111762455076042488
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostSpawner : MonoBehaviour
@@ -16,19 +17,23 @@ public class GhostSpawner : MonoBehaviour
 
     void SpawnGhosts()
     {
+        HashSet<Vector2Int> usedPositions = new HashSet<Vector2Int>();
+
         for (int i = 0; i < numberOfGhosts; i++)
         {
-            Vector2Int spawnPos = GetRandomSpawnPosition();
+            Vector2Int spawnPos = GetRandomSpawnPosition(usedPositions);
 
             Vector3 worldPos = GridManager.Instance.GridToWorld(spawnPos);
             GameObject ghost = Instantiate(ghostPrefab, worldPos, Quaternion.identity);
 
-            // Optional: Initialize ghost's direction
+            Ghost ghostController = ghost.GetComponent<Ghost>();
             ghostController.InitializeRandomDirection();
+
+            usedPositions.Add(spawnPos);
         }
     }
 
-    Vector2Int GetRandomSpawnPosition()
+    Vector2Int GetRandomSpawnPosition(HashSet<Vector2Int> usedPositions)
     {
         Vector2Int pos;
         int attempts = 0;
@@ -40,12 +45,11 @@ public class GhostSpawner : MonoBehaviour
             pos = new Vector2Int(x, y);
             attempts++;
 
-            // Make sure spawn location is walkable
-            if (CollisionManager.Instance.IsWalkable(pos))
+            if (CollisionManager.Instance.IsWalkable(pos) && !usedPositions.Contains(pos))
                 return pos;
 
-        } while (attempts < 50);  // Prevent infinite loop if map is crowded
+        } while (attempts < 50);
 
-        return gridMin;  // fallback
+        return gridMin;  // fallback if nothing valid found
     }
 }

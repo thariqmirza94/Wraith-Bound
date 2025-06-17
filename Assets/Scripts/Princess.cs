@@ -5,6 +5,7 @@ public class Princess : MonoBehaviour
 {
     [SerializeField] private PlayerController controller;
     public bool isFree = false;
+    public Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +24,7 @@ public class Princess : MonoBehaviour
             if (controller.hasKey)
             {
                 isFree = true;
+                animator.SetBool("IsWalking", true);
                 Debug.Log("Princess is free");
                 //some type of indicator saying that the player wins
                 //a short wait that last a couple of secs?
