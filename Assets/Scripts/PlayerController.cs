@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     private float moveTimer;
     public bool hasKey = false;
+    public GameObject keyObject;         // Drag your Key object here
+    public GameObject princessObject;    // Drag your Princess object here
+    public bool princessSaved = false;
     //health variable
 
 
@@ -86,6 +89,24 @@ public class PlayerController : MonoBehaviour
         {
             SetWalkingFalse();
         }
+
+        // Check if close enough to pick up key
+        if (!hasKey && Vector2.Distance(transform.position, keyObject.transform.position) <= 2f)
+        {
+            hasKey = true;
+            Destroy(keyObject);  // Pick up the key
+            Debug.Log("Key collected!");
+        }
+
+        // Check if close enough to save the princess (with key)
+        if (hasKey && princessObject != null && Vector2.Distance(transform.position, princessObject.transform.position) <= 2f)
+        {
+            SavePrincess();
+        }
+        if (!hasKey && princessObject != null && Vector2.Distance(transform.position, princessObject.transform.position) <= 2f)
+        {
+            Debug.Log("You need a key to save the princess.");
+        }
     }
 
     void PlaceSpell()
@@ -112,5 +133,15 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Attack");
     }
+
+    void SavePrincess()
+    {
+        Debug.Log("Princess saved!");
+        princessSaved = true;
+
+        // You can also show win screen, end game, etc.
+        // e.g. SceneManager.LoadScene("WinScene");
+    }
+
 
 }
