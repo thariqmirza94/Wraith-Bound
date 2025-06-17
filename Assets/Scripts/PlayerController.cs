@@ -4,13 +4,13 @@ public class PlayerController : MonoBehaviour
 {
     public float moveCooldown = 0.15f;
     public GameObject spellPrefab;
-
+    [SerializeField] private Animator animator;
     private float moveTimer;
     public bool hasKey = false;
     //health variable
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Key"))
         {
@@ -39,10 +39,25 @@ public class PlayerController : MonoBehaviour
 
         Vector2Int dir = Vector2Int.zero;
 
-        if (Input.GetKeyDown(KeyCode.W)) dir = Vector2Int.up;
-        if (Input.GetKeyDown(KeyCode.S)) dir = Vector2Int.down;
-        if (Input.GetKeyDown(KeyCode.A)) dir = Vector2Int.left;
-        if (Input.GetKeyDown(KeyCode.D)) dir = Vector2Int.right;
+        if (Input.GetKeyDown(KeyCode.W)) 
+        {
+            dir = Vector2Int.up; //why moving z axis and not y?
+        }
+
+        if (Input.GetKeyDown(KeyCode.S)) 
+        {
+            dir = Vector2Int.down; //why moving z axis and not y?
+        }
+
+        if (Input.GetKeyDown(KeyCode.A)) 
+        { 
+            dir = Vector2Int.left; 
+        }
+
+        if (Input.GetKeyDown(KeyCode.D)) 
+        { 
+            dir = Vector2Int.right; 
+        }
 
         if (dir != Vector2Int.zero)
         {
@@ -58,11 +73,22 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlaceBomb();
+            SetAttack();
+            PlaceSpell();
+        }
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+       Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            SetWalkingTrue();
+        }
+        else
+        {
+            SetWalkingFalse();
         }
     }
 
-    void PlaceBomb()
+    void PlaceSpell()
     {
         Vector2Int pos = GridManager.Instance.WorldToGrid(transform.position);
         if (!CollisionManager.Instance.bombs.Contains(pos))
@@ -71,4 +97,20 @@ public class PlayerController : MonoBehaviour
             CollisionManager.Instance.AddBomb(pos);
         }
     }
+
+    void SetWalkingTrue()
+    {
+        animator.SetBool("IsWalking", true);
+    }
+
+    void SetWalkingFalse()
+    {
+        animator.SetBool("IsWalking", false);
+    }
+
+    void SetAttack()
+    {
+        animator.SetTrigger("Attack");
+    }
+
 }
