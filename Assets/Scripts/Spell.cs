@@ -3,7 +3,7 @@ using UnityEngine;
 public class Spell : MonoBehaviour
 {
     public float fuseTime = 2f;                  // Time before explosion
-    public int spellRange = 2;                   // How far flames reach
+    public int spellRange = 5;                   // How far flames reach
     public GameObject explosionPrefab;           // Visual-only explosion prefab (NOT the Spell itself)
 
     private Vector2Int gridPos;
@@ -66,7 +66,7 @@ public class Spell : MonoBehaviour
         CollisionManager.Instance.AddExplosion(pos);
 
         // Check for ghosts in explosion radius
-        Collider2D[] hits = Physics2D.OverlapCircleAll(worldPos, 1.5f); // 1.5 = radius (tweak as needed)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(worldPos, 5f); // 1.5 = radius (tweak as needed)
 
         foreach (Collider2D hit in hits)
         {

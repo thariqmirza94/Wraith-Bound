@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public GameObject keyObject;         // Drag your Key object here
     public GameObject princessObject;    // Drag your Princess object here
     public bool princessSaved = false;
+    public TimerUI timer; // Drag your TimerManager here
     //health variable
 
 
@@ -138,9 +140,9 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Princess saved!");
         princessSaved = true;
-
-        // You can also show win screen, end game, etc.
-        // e.g. SceneManager.LoadScene("WinScene");
+        timer.StopTimer();
+        Debug.Log("Timer stopped");
+        SceneManager.LoadScene("WinScreen");
     }
 
 

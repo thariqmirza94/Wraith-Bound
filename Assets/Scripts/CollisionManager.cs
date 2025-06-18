@@ -12,7 +12,6 @@ public class CollisionManager : MonoBehaviour
     public HashSet<Vector2Int> bombs = new();
     public HashSet<Vector2Int> explosions = new();
     public HashSet<Vector2Int> keys = new();
-    public Vector2Int princessPosition;
 
     [SerializeField] private GridManager gridManager;
 
