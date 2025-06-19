@@ -11,7 +11,7 @@ public class WinScreen : MonoBehaviour
         playButton.onClick.AddListener(GoToMainMenu);
     }
 
-    void GoToMainMenu()
+   public void GoToMainMenu()
     {
         SceneManager.LoadScene("LoadingScreen");
     }

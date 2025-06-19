@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviour
     public GameObject princessObject;    // Drag your Princess object here
     public bool princessSaved = false;
     public TimerUI timer; // Drag your TimerManager here
-    //health variable
-
+    public AudioSource GhostMusic;
+    public AudioSource WinSound;
+    private bool hasWon = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -36,6 +37,14 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    void Start()
+    {
+        hasWon = false;           // ensure reset
+        hasKey = false;           // unless intended
+        GhostMusic.Play();
+    }
+
 
     void Update()
     {
@@ -109,6 +118,12 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("You need a key to save the princess.");
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            timer.StopTimer();
+            SceneManager.LoadScene("PauseMenu");
+        }
     }
 
     void PlaceSpell()
@@ -138,12 +153,17 @@ public class PlayerController : MonoBehaviour
 
     void SavePrincess()
     {
+        if (hasWon) return; // prevent multiple or premature triggers
+
+        hasWon = true;
         Debug.Log("Princess saved!");
         princessSaved = true;
         timer.StopTimer();
-        Debug.Log("Timer stopped");
+        WinSound.Play();
+        GhostMusic.Stop();
         SceneManager.LoadScene("WinScreen");
     }
+
 
 
 }

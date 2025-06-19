@@ -26,8 +26,6 @@ public class Princess : MonoBehaviour
                 isFree = true;
                 animator.SetBool("IsWalking", true);
                 Debug.Log("Princess is free");
-                //some type of indicator saying that the player wins
-                //a short wait that last a couple of secs?
                 SceneManager.LoadScene("LoadingScreen");
             }
         }

@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wizard_Attack_0: -8545378240939461513
+      Wizard_Attack_1: -5699774297120529639
+      Wizard_Attack_2: 5902414209094857349
+      Wizard_Attack_3: 7046332963607860496
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

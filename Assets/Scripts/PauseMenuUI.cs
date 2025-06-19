@@ -1,7 +1,20 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenuUI : MonoBehaviour
 {
-    public void OnResumePressed() { /* unpause */ }
-    public void OnQuitPressed() { /* quit to menu */ }
+    public Button playButton;
+    public TimerUI timer;
+
+    void Start()
+    {
+        playButton.onClick.AddListener(GoToMainGame);
+    }
+
+    public void GoToMainGame()
+    {
+        SceneManager.LoadScene("MainGame");
+        timer.timerIsRunning = true;
+    }
 }

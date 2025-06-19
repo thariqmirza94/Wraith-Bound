@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Wizard_Walk_0: -8874382435559073996
+      Wizard_Walk_1: 5652954756303445387
+      Wizard_Walk_2: -7623496547931526512
+      Wizard_Walk_3: 3808770369175351119
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

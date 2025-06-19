@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Princess_Idle_0: 6930972404253959022
+      Princess_Idle_1: 1023545188492610915
+      Princess_Idle_2: 2327707373761553888
+      Princess_Idle_3: -4681884534712034149
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
