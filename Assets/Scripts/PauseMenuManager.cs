@@ -1,46 +1,35 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PauseMenuManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-    private bool isPaused = false;
+    public TimerUI timer;
+    public static bool isPaused = false;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))  // Use any key you want to toggle pause
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
-                Resume();
+                ResumeGame();
             else
-                Pause();
+                PauseGame();
         }
     }
 
-    public void Resume()
-    {
-        pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
-        isPaused = false;
-        SceneManager.LoadScene("MainGame");
-    }
-
-    public void Pause()
+    public void PauseGame()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
+        timer.StopTimer();
         isPaused = true;
     }
 
-    //public void RestartLevel()
-    //{
-    //    Time.timeScale = 1f;  // Always unpause before reloading
-    //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    //}
-
-    //public void LoadMainMenu()
-    //{
-    //    Time.timeScale = 1f;
-    //    SceneManager.LoadScene("LoadingScreen");
-    //}
+    public void ResumeGame()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        timer.ResumeTimer();
+        isPaused = false;
+    }
 }

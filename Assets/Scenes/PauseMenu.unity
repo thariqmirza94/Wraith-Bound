@@ -696,6 +696,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playButton: {fileID: 420445388}
   timer: {fileID: 2064693816206240448, guid: 9e83eda0ab9fc504f9dca0041a4a3fdc, type: 3}
+--- !u!1 &890639565 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3237232102242908194, guid: b3147be7c9eeca54cb42f5e664975af6, type: 3}
+  m_PrefabInstance: {fileID: 420445385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1611489033
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,6 +780,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1780354934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1780354936}
+  - component: {fileID: 1780354935}
+  m_Layer: 0
+  m_Name: PauseMenuManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1780354935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780354934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0eeab49dae9c6f418a4ac0ea4d43130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 890639565}
+  timer: {fileID: 0}
+--- !u!4 &1780354936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780354934}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 28.443888, y: 18.775955, z: 0.027799515}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -782,3 +833,4 @@ SceneRoots:
   - {fileID: 299976559}
   - {fileID: 420445385}
   - {fileID: 1611489036}
+  - {fileID: 1780354936}

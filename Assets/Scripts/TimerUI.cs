@@ -3,49 +3,58 @@ using TMPro;
 
 public class TimerUI : MonoBehaviour
 {
-    public float timeRemaining = 120f; // Set your timer duration
+    public float totalTime = 120f; // Total countdown time
+    private float remainingTime;
     public bool timerIsRunning = true;
 
-    public TextMeshProUGUI timerText; // Drag your UI Text object here in Inspector
+    public TextMeshProUGUI timerText;
+
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
 
     void Start()
     {
-        UpdateTimerDisplay(timeRemaining);
+        remainingTime = totalTime;
+        UpdateTimerText();
     }
 
     void Update()
     {
-        if (timerIsRunning)
+        if (timerIsRunning && remainingTime > 0f)
         {
-            timeRemaining -= Time.deltaTime;
-            if (timeRemaining <= 0)
-            {
-                timeRemaining = 0;
-                timerIsRunning = false;
-                Debug.Log("Time's up!");
-                HandleTimeout();
-            }
-
-            UpdateTimerDisplay(timeRemaining);
+            remainingTime -= Time.unscaledDeltaTime; // Use unscaled time so it updates even when timeScale = 0
+            UpdateTimerText();
         }
     }
 
-    void UpdateTimerDisplay(float time)
+    void UpdateTimerText()
     {
-        int minutes = Mathf.FloorToInt(time / 60);
-        int seconds = Mathf.FloorToInt(time % 60);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
-
-    void HandleTimeout()
-    {
-        // Add logic for time-out
-        // e.g., end game, disable player, show Game Over screen
-        GameObject.FindWithTag("Player").SetActive(false); // Optional: disable player
+        int seconds = Mathf.Max(0, Mathf.FloorToInt(remainingTime));
+        timerText.text = "Time: " + seconds.ToString();
     }
 
     public void StopTimer()
     {
         timerIsRunning = false;
+    }
+
+    public void ResumeTimer()
+    {
+        timerIsRunning = true;
+    }
+
+    public void ResetTimer()
+    {
+        remainingTime = totalTime;
+        UpdateTimerText();
+        timerIsRunning = true;
+    }
+
+    public float GetRemainingTime()
+    {
+        return remainingTime;
     }
 }
