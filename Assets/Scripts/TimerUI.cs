@@ -1,21 +1,60 @@
-
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class TimerUI : MonoBehaviour
 {
-    [SerializeField] private TMP_Text timerText;
+    public float totalTime = 120f; // Total countdown time
+    private float remainingTime;
+    public bool timerIsRunning = true;
 
-    public void SetTime(float time)
+    public TextMeshProUGUI timerText;
+
+    void Awake()
     {
-        // Clamp so we don't show negative time
-        time = Mathf.Max(0, time);
+        DontDestroyOnLoad(gameObject);
+    }
 
-        // Convert to minutes and seconds
-        int minutes = Mathf.FloorToInt(time / 60f);
-        int seconds = Mathf.FloorToInt(time % 60f);
 
-        // Update UI text (format: MM:SS)
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    void Start()
+    {
+        remainingTime = totalTime;
+        UpdateTimerText();
+    }
+
+    void Update()
+    {
+        if (timerIsRunning && remainingTime > 0f)
+        {
+            remainingTime -= Time.unscaledDeltaTime; // Use unscaled time so it updates even when timeScale = 0
+            UpdateTimerText();
+        }
+    }
+
+    void UpdateTimerText()
+    {
+        int seconds = Mathf.Max(0, Mathf.FloorToInt(remainingTime));
+        timerText.text = "Time: " + seconds.ToString();
+    }
+
+    public void StopTimer()
+    {
+        timerIsRunning = false;
+    }
+
+    public void ResumeTimer()
+    {
+        timerIsRunning = true;
+    }
+
+    public void ResetTimer()
+    {
+        remainingTime = totalTime;
+        UpdateTimerText();
+        timerIsRunning = true;
+    }
+
+    public float GetRemainingTime()
+    {
+        return remainingTime;
     }
 }

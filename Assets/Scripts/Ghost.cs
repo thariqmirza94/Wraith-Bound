@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Ghost : MonoBehaviour
@@ -11,45 +12,73 @@ public class Ghost : MonoBehaviour
     private GridManager grid;
     private CollisionManager collisionManager;
 
-    [System.Obsolete]
-    private void Start()
-    {
-        grid = GridManager.Instance;
-        collisionManager = FindObjectOfType<CollisionManager>();
+    public float moveDuration = 0.2f;
 
-        currentGridPos = grid.WorldToGrid(transform.position);
-        PickRandomDirection();
+    private Vector2Int currentPos;
+    private bool isMoving = false;
+    private Vector2Int initialDirection = Vector2Int.zero;
+
+    void Start()
+    {
+        currentPos = GridManager.Instance.WorldToGrid(transform.position);
+        transform.position = GridManager.Instance.GridToWorld(currentPos);
+
+        StartCoroutine(MoveRoutine());
     }
 
-    private void Update()
+    IEnumerator MoveRoutine()
     {
-        moveTimer += Time.deltaTime;
-        if (moveTimer < moveCooldown)
-            return;
-
-        Vector2Int targetPos = currentGridPos + direction;
-
-        if (collisionManager.IsWalkable(targetPos))
+        while (true)
         {
-            currentGridPos = targetPos;
-            transform.position = grid.GridToWorld(currentGridPos);
-        }
-        else
-        {
-            PickRandomDirection();
-        }
+            if (!isMoving)
+            {
+                Vector2Int dir = (initialDirection == Vector2Int.zero) ? GetRandomDirection() : initialDirection;
+                initialDirection = Vector2Int.zero;
+                Vector2Int targetPos = currentPos + dir;
 
-        moveTimer = 0f;
+                if (CollisionManager.Instance.IsWalkable(targetPos))
+                {
+                    yield return StartCoroutine(MoveTo(targetPos));
+                }
+            }
+
+            yield return new WaitForSeconds(moveCooldown);
+        }
     }
 
-    private void PickRandomDirection() 
+    Vector2Int GetRandomDirection()
     {
         Vector2Int[] directions = Directions.CardinalDirections;
-        direction = directions[Random.Range(0, directions.Length)];
-        //for loop- goes to +1 -> goes back to spawning position -> goes to -1 
-        //put a collider during the path
+        int index = Random.Range(0, directions.Length);
+        return directions[index];
     }
-    
+
+    public void InitializeRandomDirection()
+    {
+        Vector2Int[] directions = Directions.CardinalDirections;
+        int index = Random.Range(0, directions.Length);
+        initialDirection = directions[index];
+    }
+
+    IEnumerator MoveTo(Vector2Int targetPos)
+    {
+        isMoving = true;
+        Vector3 start = transform.position;
+        Vector3 end = GridManager.Instance.GridToWorld(targetPos);
+        float elapsed = 0f;
+
+        while (elapsed < moveDuration)
+        {
+            transform.position = Vector3.Lerp(start, end, elapsed / moveDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = end;
+        currentPos = targetPos;
+        isMoving = false;
+    }
+
     //spawn location
     //+-1 up/down or left/right
 
@@ -58,7 +87,7 @@ public class Ghost : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Spell")
         {

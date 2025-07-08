@@ -18,20 +18,20 @@ public class GridManager : MonoBehaviour
     public Vector2Int WorldToGrid(Vector3 worldPos)
     {
         int x = Mathf.RoundToInt(worldPos.x / cellSize);
-        int y = Mathf.RoundToInt(worldPos.z / cellSize);
+        int y = Mathf.RoundToInt(worldPos.y / cellSize);
         return new Vector2Int(x, y);
     }
 
     public Vector3 GridToWorld(Vector2Int gridPos)
     {
-        return new Vector3(gridPos.x * cellSize, 0f, gridPos.y * cellSize);
+        return new Vector3(gridPos.x * cellSize, gridPos.y * cellSize, 0f);
     }
 
     // Converts world space to grid coordinates
     public Vector2Int WorldToGridIndex(Vector3 worldPos)
     {
         int x = Mathf.RoundToInt(worldPos.x / gridSettings.CellSize);
-        int y = Mathf.RoundToInt(worldPos.z / gridSettings.CellSize);
+        int y = Mathf.RoundToInt(worldPos.y / gridSettings.CellSize);
         return new Vector2Int(x, y);
     }
 

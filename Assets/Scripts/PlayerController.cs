@@ -1,16 +1,22 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     public float moveCooldown = 0.15f;
     public GameObject spellPrefab;
-
+    [SerializeField] private Animator animator;
     private float moveTimer;
     public bool hasKey = false;
-    //health variable
+    public GameObject keyObject;         // Drag your Key object here
+    public GameObject princessObject;    // Drag your Princess object here
+    public bool princessSaved = false;
+    public TimerUI timer; // Drag your TimerManager here
+    public AudioSource GhostMusic;
+    public AudioSource WinSound;
+    private bool hasWon = false;
 
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Key"))
         {
@@ -32,6 +38,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        hasWon = false;           // ensure reset
+        hasKey = false;           // unless intended
+        GhostMusic.Play();
+    }
+
+
     void Update()
     {
         moveTimer += Time.deltaTime;
@@ -39,10 +53,25 @@ public class PlayerController : MonoBehaviour
 
         Vector2Int dir = Vector2Int.zero;
 
-        if (Input.GetKeyDown(KeyCode.W)) dir = Vector2Int.up;
-        if (Input.GetKeyDown(KeyCode.S)) dir = Vector2Int.down;
-        if (Input.GetKeyDown(KeyCode.A)) dir = Vector2Int.left;
-        if (Input.GetKeyDown(KeyCode.D)) dir = Vector2Int.right;
+        if (Input.GetKeyDown(KeyCode.W)) 
+        {
+            dir = Vector2Int.up; //why moving z axis and not y?
+        }
+
+        if (Input.GetKeyDown(KeyCode.S)) 
+        {
+            dir = Vector2Int.down; //why moving z axis and not y?
+        }
+
+        if (Input.GetKeyDown(KeyCode.A)) 
+        { 
+            dir = Vector2Int.left; 
+        }
+
+        if (Input.GetKeyDown(KeyCode.D)) 
+        { 
+            dir = Vector2Int.right; 
+        }
 
         if (dir != Vector2Int.zero)
         {
@@ -58,11 +87,46 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlaceBomb();
+            SetAttack();
+            PlaceSpell();
+        }
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+       Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            SetWalkingTrue();
+        }
+        else
+        {
+            SetWalkingFalse();
+        }
+
+        // Check if close enough to pick up key
+        if (!hasKey && Vector2.Distance(transform.position, keyObject.transform.position) <= 2f)
+        {
+            hasKey = true;
+            Destroy(keyObject);  // Pick up the key
+            Debug.Log("Key collected!");
+        }
+
+        // Check if close enough to save the princess (with key)
+        if (hasKey && princessObject != null && Vector2.Distance(transform.position, princessObject.transform.position) <= 2f)
+        {
+            SavePrincess();
+        }
+        if (!hasKey && princessObject != null && Vector2.Distance(transform.position, princessObject.transform.position) <= 2f)
+        {
+            Debug.Log("You need a key to save the princess.");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            timer.StopTimer();
+            SceneManager.LoadScene("PauseMenu");
         }
     }
 
-    void PlaceBomb()
+    void PlaceSpell()
     {
         Vector2Int pos = GridManager.Instance.WorldToGrid(transform.position);
         if (!CollisionManager.Instance.bombs.Contains(pos))
@@ -71,4 +135,35 @@ public class PlayerController : MonoBehaviour
             CollisionManager.Instance.AddBomb(pos);
         }
     }
+
+    void SetWalkingTrue()
+    {
+        animator.SetBool("IsWalking", true);
+    }
+
+    void SetWalkingFalse()
+    {
+        animator.SetBool("IsWalking", false);
+    }
+
+    void SetAttack()
+    {
+        animator.SetTrigger("Attack");
+    }
+
+    void SavePrincess()
+    {
+        if (hasWon) return; // prevent multiple or premature triggers
+
+        hasWon = true;
+        Debug.Log("Princess saved!");
+        princessSaved = true;
+        timer.StopTimer();
+        WinSound.Play();
+        GhostMusic.Stop();
+        SceneManager.LoadScene("WinScreen");
+    }
+
+
+
 }

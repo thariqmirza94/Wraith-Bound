@@ -17,10 +17,6 @@ public class GameUIManager : MonoBehaviour
     //    keyCountUI.SetKeys(keys);
     //}
 
-    public void UpdateTimer(float timeRemaining)
-    {
-        timerUI.SetTime(timeRemaining);
-    }
 
     public void ShowPauseMenu(bool show)
     {
